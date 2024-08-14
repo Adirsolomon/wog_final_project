@@ -1,0 +1,8 @@
+FROM mysql:8.0
+
+ENV MYSQL_DATABASE=games
+ENV MYSQL_ROOT_PASSWORD=rootpassword
+ENV MYSQL_USER=wog_user
+ENV MYSQL_PASSWORD=userpassword
+
+EXPOSE 3306
