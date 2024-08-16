@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <script>
+        setTimeout(function() {
+            document.getElementById('sequence').style.display = 'none';
+            document.getElementById('input-form').style.display = 'block';
+        }, 1000);  // Hide sequence after 1 second
+    </script>
+</head>
+<body>
+    <h1>Memorize the Sequence</h1>
+    <div id="sequence">
+        <p>{{ sequence }}</p>
+    </div>
+    <div id="input-form" style="display:none;">
+        <form method="post" action="{% url 'check_memory' %}">
+            {% csrf_token %}
+            {% for i in sequence %}
+                <label for="num_{{ forloop.counter }}">Enter number {{ forloop.counter }}:</label>
+                <input type="text" id="num_{{ forloop.counter }}" name="num_{{ forloop.counter }}">
+                <br>
+            {% endfor %}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
+
+

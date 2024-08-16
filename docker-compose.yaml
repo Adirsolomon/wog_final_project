@@ -13,6 +13,8 @@ services:
     container_name: picker_cont
     ports:
       - "7072:8000"
+    volumes:
+      - ./game_picker:/app  
     depends_on:
       - mysql    
   savegame:
@@ -24,6 +26,14 @@ services:
       - ./savegame:/app
     depends_on:
       - mysql
+  memorygame:
+    build: ./memory_game
+    container_name: memorygame_cont
+    ports:
+      - "7073:8000"
+    volumes:
+      - ./memory_game:/app
+    
   mysql:
     build: ./mysql
     container_name: mysql_cont

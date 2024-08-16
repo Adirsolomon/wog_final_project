@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game Result</title>
+</head>
+<body>
+    <h1>{{ result }}</h1>
+    {% if success %}
+        <p>Your Score: {{ score }}</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" formaction="{% url 'play' %}">Play Again</button>
+        <button type="submit" formaction="http://localhost:7072/">Go Back to Game Picker</button>
+        <button type="submit" formaction="{% url 'quit_game' %}">Quit</button>
+    </form>
+</body>
+</html>
+
+

@@ -20,7 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-90wuj2h+80s%4e5!#gt4&)a90la!^9rd2u4gi!*5pqqqk7t%0l'
+SECRET_KEY = 'django-insecure-z88x#$t-4f3l+*=i9(61nlh1-1bu7)y7em2gzldatohy1s#ve1'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -70,6 +71,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'savegame.wsgi.application'
+
+
+SSESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or another consistent backend
+SESSION_COOKIE_NAME = 'sessionid'
+
 
 
 # Database

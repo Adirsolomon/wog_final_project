@@ -75,6 +75,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'game_picker.wsgi.application'
 
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or another consistent backend
+SESSION_COOKIE_NAME = 'sessionid'
+
+
+
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
