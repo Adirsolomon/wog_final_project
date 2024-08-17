@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'savegame.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'savegame', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,13 +77,23 @@ WSGI_APPLICATION = 'savegame.wsgi.application'
 SSESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or another consistent backend
 SESSION_COOKIE_NAME = 'sessionid'
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:7072',  
+    'http://localhost:7073',  
+    'http://localhost:7071',
+    'http://localhost:7070',  
+    'http://localhost:7074',  
+    'http://localhost:7075',
+    'http://localhost:7076',  
+    'http://localhost:7077',  
+    'http://localhost:7078', 
+]
 
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {  
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'games',
         'USER': 'wog_user',
         'PASSWORD': 'userpassword',

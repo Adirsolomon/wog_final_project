@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Score  # Assuming you have a UserScore model to save the score
+from scores.models import Player  # Correcting the model import
 
 def save_score(request):
     # Retrieve username and score from the session
@@ -13,8 +13,10 @@ def save_score(request):
 
     # Save the score in the database
     try:
-        user_score = Score(username=username, score=score)
-        user_score.save()
+        # Check if the player already exists
+        player, created = Player.objects.get_or_create(name=username)
+        player.score += score  # Add the new score to the existing score
+        player.save()
     except Exception as e:
         return HttpResponse(f"Error: Could not save score. {str(e)}", status=500)
 
@@ -23,5 +25,7 @@ def save_score(request):
 
     # Render a confirmation page or redirect to a confirmation page
     return render(request, 'savegame/save_score.html', {'message': f'Score for {username} has been saved successfully!'})
+
+
 
 

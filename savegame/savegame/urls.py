@@ -15,10 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+# savegame/urls.py
 from django.urls import path
-from . import views
+from scores import views
 
 urlpatterns = [
-    path('save_score/', views.save_score, name='save_score'),
+    path('', views.save_score, name='save_score'),
 ]
+
 

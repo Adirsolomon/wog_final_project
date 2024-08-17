@@ -74,10 +74,19 @@ WSGI_APPLICATION = 'memory_game.wsgi.application'
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or another consistent backend
 SESSION_COOKIE_NAME = 'sessionid'
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:7072',  
+    'http://localhost:7073',  
+    'http://localhost:7071',
+    'http://localhost:7070',  
+    'http://localhost:7074',  
+    'http://localhost:7075',
+    'http://localhost:7076',  
+    'http://localhost:7077',  
+    'http://localhost:7078', 
+]
 
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
