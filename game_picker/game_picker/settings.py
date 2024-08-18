@@ -91,7 +91,8 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:7078', 
 ]
 
-
+CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SECURE = False
 
 DATABASES = {
     'default': {

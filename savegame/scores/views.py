@@ -8,8 +8,13 @@ def save_score(request):
     score = request.session.get('score')
 
     # Check if username and score are in the session
-    if not username or score is None:
-        return HttpResponse("Error: No score data available to save.", status=400)
+    if not username:
+        return HttpResponse("Error: No username found in session.", status=400)
+
+    if score is None:
+        # Score might have already been saved, or no score exists in session
+        # Check if we need to display a message or redirect the user
+        return render(request, 'savegame/save_score.html', {'message': f'No new score to save for {username}.'})
 
     # Save the score in the database
     try:
