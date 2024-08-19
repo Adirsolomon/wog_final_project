@@ -39,6 +39,9 @@ def save_and_restart(request):
     return redirect('http://localhost:7070/')  # Redirect to the intro app
 
 
-
+def view_scores(request):
+    # Retrieve all players and their scores from the database
+    players = Player.objects.all().order_by('-score')  # Order by score descending
+    return render(request, 'view_scores.html', {'players': players})
 
 
