@@ -33,6 +33,13 @@ services:
       - "7073:8000"
     volumes:
       - ./memory_game:/app
+  guessgame:
+    build: ./guess_game
+    container_name: guessgame_cont
+    ports:
+      - "7074:8000"
+    volumes:
+      - ./guess_game:/app    
     
   mysql:
     build: ./mysql
