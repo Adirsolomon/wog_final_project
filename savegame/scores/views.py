@@ -7,14 +7,14 @@ def save_score(request):
     username = request.session.get('username')
     score = request.session.get('score')
 
-    # Check if username and score are in the session
+    # Check if username is in the session
     if not username:
         return HttpResponse("Error: No username found in session.", status=400)
 
+    # Check if score is None
     if score is None:
         # Score might have already been saved, or no score exists in session
-        # Check if we need to display a message or redirect the user
-        return render(request, 'savegame/save_score.html', {'message': f'No new score to save for {username}.'})
+        return render(request, 'savegame/success.html', {'message': f'No new score to save for {username}.'})
 
     # Save the score in the database
     try:
@@ -25,11 +25,19 @@ def save_score(request):
     except Exception as e:
         return HttpResponse(f"Error: Could not save score. {str(e)}", status=500)
 
-    # Clear the score from the session if needed
+    # Clear the score from the session after saving
     request.session.pop('score', None)
 
-    # Render a confirmation page or redirect to a confirmation page
-    return render(request, 'savegame/save_score.html', {'message': f'Score for {username} has been saved successfully!'})
+    # Render the success page and redirect to intro after confirmation
+    return render(request, 'savegame/success.html', {'message': f'Score for {username} has been saved successfully!'})
+
+def save_and_restart(request):
+    # Save the score first
+    save_score(request)
+    # Clear the session and redirect to the intro page to start over
+    request.session.flush()
+    return redirect('http://localhost:7070/')  # Redirect to the intro app
+
 
 
 

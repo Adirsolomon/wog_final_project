@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Saved</title>
+    <title>Save Score</title>
 </head>
 <body>
     <h1>{{ message }}</h1>
-    <form method="get" action="http://localhost:7070/"> <!-- Redirect to intro -->
-        <button type="submit">Start Over</button>
+    <form method="post" action="{% url 'save_and_restart' %}">
+        {% csrf_token %}
+        <button type="submit">Go Back to Main Menu</button>
     </form>
 </body>
 </html>

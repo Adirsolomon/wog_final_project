@@ -58,8 +58,10 @@ def check_memory(request):
     return redirect('play')
 
 def quit_game(request):
-    # Redirect to save_game app to save the score
-    return redirect('http://localhost:7071/')
+    # Redirect to save_game with a parameter indicating a return to intro
+    return redirect('http://localhost:7071/?next=intro')
+
+
 
 
 

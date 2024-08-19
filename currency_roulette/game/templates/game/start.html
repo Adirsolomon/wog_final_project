@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Roulette</title>
+</head>
+<body>
+    <h1>Guess the Amount in USD</h1>
+    <p>Random Number in NIS: {{ random_number }}</p>
+    <p>Guess the equivalent amount in USD (with error range):</p>
+    <form method="post" action="{% url 'check_guess' %}">
+        {% csrf_token %}
+        <label for="guess">Your Guess:</label>
+        <input type="number" id="guess" name="guess" required>
+        <button type="submit">Submit Guess</button>
+    </form>
+</body>
+</html>

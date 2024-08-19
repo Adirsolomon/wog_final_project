@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Result</title>
+</head>
+<body>
+    <h1>{{ result }}</h1>
+    {% if success %}
+        <p>Your Score: {{ score }}</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" formaction="{% url 'play' %}">Play Again</button>
+        <a href="http://localhost:7072/"><button type="button">Go Back to main menu</button></a>
+        <button type="submit" formaction="{% url 'quit_game' %}">Quit & Save</button>
+    </form>
+</body>
+</html>

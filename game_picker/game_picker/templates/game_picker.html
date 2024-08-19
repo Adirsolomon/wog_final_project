@@ -11,9 +11,9 @@
         {% csrf_token %}
         <label for="game_selected">Choose a game:</label>
         <select id="game_selected" name="game_selected">
-            <option value="1">Memory Game</option>
-            <option value="2">Guess Game</option>
-            <option value="3">Currency Roulette</option>
+            <option value="memory_game">Memory Game</option>
+            <option value="guess_game">Guess Game</option>
+            <option value="currency_roulette">Currency Roulette</option>
         </select>
         <br><br>
         <label for="level">Select difficulty level (1-5):</label>
@@ -32,4 +32,3 @@
     {% endif %}
 </body>
 </html>
-

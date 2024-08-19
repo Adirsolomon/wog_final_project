@@ -33,13 +33,26 @@ services:
       - "7073:8000"
     volumes:
       - ./memory_game:/app
+    depends_on:
+      - mysql  
   guessgame:
     build: ./guess_game
     container_name: guessgame_cont
     ports:
       - "7074:8000"
     volumes:
-      - ./guess_game:/app    
+      - ./guess_game:/app
+    depends_on:
+      - mysql    
+  currency_roulette:
+    build: ./currency_roulette
+    container_name: currency_cont
+    ports:
+      - "7075:8000"
+    volumes:
+      - ./currency_roulette:/app
+    depends_on:
+      - mysql         
     
   mysql:
     build: ./mysql

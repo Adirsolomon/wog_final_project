@@ -3,8 +3,13 @@ from django.http import HttpResponse
 
 def welcome(request):
     if request.method == 'POST':
+        # Clear the session data to reset for a new user
+        request.session.flush()
+
         username = request.POST.get('name')
-        request.session['username'] = username 
+        request.session['username'] = username
+
+        # Validate the username input
         if username.isnumeric():
             return render(request, 'welcome/welcome.html', {'error': "Name should not contain only numbers, please enter a valid name."})
         elif len(username) < 4:
@@ -18,8 +23,9 @@ def welcome(request):
             greeting_message = f"Hi {username} and welcome to the World of Games: The Epic Journey"
             # Render the greeting and then redirect to game_picker
             return render(request, 'welcome/welcome.html', {'greeting': greeting_message, 'redirect': True})
-    
+
     return render(request, 'welcome/welcome.html')
+
 
 
 
