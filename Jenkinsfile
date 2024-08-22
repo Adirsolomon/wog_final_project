@@ -38,7 +38,8 @@ pipeline {
 
                     services.each { service ->
                         def imageName = "${DOCKER_USERNAME}/wog_final-${service}"
-                        sh "docker push ${imageName}:latest"
+                        sh 'docker push ${imageName}:latest'
+                        sh 'docker-compose down'
                     }
                 }
             }
