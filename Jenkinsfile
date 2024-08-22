@@ -37,7 +37,7 @@ pipeline {
                     def services = ['intro', 'game_picker', 'savegame', 'memory_game', 'guess_game', 'currency_roulette', 'selenium_tests']
 
                     services.each { service ->
-                        def imageName = "${DOCKER_USERNAME}/${service}"
+                        def imageName = "${DOCKER_USERNAME}/wog_final-${service}"
                         sh "docker push ${imageName}:latest"
                     }
                 }
