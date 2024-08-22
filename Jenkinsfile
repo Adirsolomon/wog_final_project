@@ -38,8 +38,7 @@ pipeline {
 
                     services.each { service ->
                         def imageName = "${DOCKER_USERNAME}/${service}"
-                        sh "docker tag ${DOCKER_USERNAME}/${service}:latest ${imageName}:latest"
-                        sh "docker push ${imageName}"
+                        sh "docker push ${imageName}:latest"
                     }
                 }
             }
