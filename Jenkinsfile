@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     environment {
         DOCKER_CREDENTIALS = credentials("dockerhub")
     }
@@ -24,23 +25,22 @@ pipeline {
         }
     }
 
-post {
-    always {
-        sh 'docker stop $(docker ps -q)'
-    }
-    success {
-        script {
-            withCredentials(bindings: [usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+    post {
+        always {
+            sh 'docker stop $(docker ps -q)'
+        }
+        success {
+            script {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
 
-                // List of services to push to Docker Hub
-                def services = ['wog_final-intro', 'wog_final-gamepicker', 'wog_final-savegame', 'wog_final-memorygame', 'wog_final-guessgame', 'wog_final-currency_roulette', 'wog_final-selenium_tests']
-                
-                // Iterate over each service, tag and push the corresponding Docker image
-                services.each { service ->
-                    def imageName = "${DOCKER_USERNAME}/${service}"
-                    sh "docker tag ${service}:latest ${imageName}:latest"
-                    sh "docker push ${imageName}:latest"
+                    def services = ['wog_final-intro', 'wog_final-gamepicker', 'wog_final-savegame', 'wog_final-memorygame', 'wog_final-guessgame', 'wog_final-currency_roulette', 'wog_final-selenium_tests']
+
+                    services.each { service ->
+                        def imageName = "${DOCKER_USERNAME}/${service}"
+                        sh "docker tag ${service}:latest ${imageName}:latest"
+                        sh "docker push ${imageName}:latest"
+                    }
                 }
             }
         }
