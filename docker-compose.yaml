@@ -67,10 +67,10 @@ services:
     - ./selenium_tests:/app
     depends_on:
     - intro
-    - gamepicker
+    - game_picker
     - savegame
-    - memorygame
-    - guessgame
+    - memory_game
+    - guess_game
     - currency_roulette
     - mysql
     environment:
