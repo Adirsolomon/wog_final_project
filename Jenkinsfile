@@ -39,7 +39,7 @@ pipeline {
                     // Iterate over each service, tag and push the corresponding Docker image
                     services.each { service ->
                         def imageName = "adiros/${service}"
-                        sh "docker tag ${service} ${imageName}:latest"
+    
                         sh "docker push ${imageName}:latest"
                     }
                 }
