@@ -52,8 +52,25 @@ services:
     volumes:
       - ./currency_roulette:/app
     depends_on:
-      - mysql         
-    
+      - mysql
+  selenium_tests:
+    build: ./selenium_tests
+    container_name: selenium_cont
+    volumes:
+    - ./selenium_tests:/app
+    depends_on:
+    - intro
+    - gamepicker
+    - savegame
+    - memorygame
+    - guessgame
+    - currency_roulette
+    - mysql
+    environment:
+    - WAIT_HOSTS=mysql:3306
+    - WAIT_HOSTS=intro:8000
+             
+
   mysql:
     build: ./mysql
     container_name: mysql_cont
