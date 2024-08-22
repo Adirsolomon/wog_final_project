@@ -34,7 +34,7 @@ pipeline {
                     sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
 
                     // List of services to push to Docker Hub
-                    def services = ['intro', 'game_picker', 'savegame', 'memory_game', 'guess_game', 'currency_roulette', 'selenium_tests', 'mysql']
+                    def services = ['wog_final-intro', 'wog_final-game_picker', 'wog_final-savegame', 'wog_final-memory_game', 'wog_final-guess_game', 'wog_final-currency_roulette', 'wog_final-selenium_tests', 'wog_final-mysql']
                     
                     // Iterate over each service, tag and push the corresponding Docker image
                     services.each { service ->
