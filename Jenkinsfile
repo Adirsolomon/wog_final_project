@@ -34,12 +34,12 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                     sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
 
-                    def services = ['wog_final-intro', 'wog_final-gamepicker', 'wog_final-savegame', 'wog_final-memorygame', 'wog_final-guessgame', 'wog_final-currency_roulette', 'wog_final-selenium_tests']
+                    def services = ['intro', 'game_picker', 'savegame', 'memory_game', 'guess_game', 'currency_roulette', 'selenium_tests']
 
                     services.each { service ->
                         def imageName = "${DOCKER_USERNAME}/${service}"
-                        sh "docker tag ${service}:latest ${imageName}:latest"
-                        sh "docker push ${imageName}:latest"
+                        
+                        sh "docker push ${imageName}"
                     }
                 }
             }
