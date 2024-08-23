@@ -26,7 +26,7 @@ pipeline {
         stage('Test') {
             steps {
                 
-                sh 'docker exec selenium_cont python tests.py'
+                sh 'docker exec -d selenium_cont python tests.py'
             }
         }
     }
