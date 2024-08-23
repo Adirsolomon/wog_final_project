@@ -19,13 +19,13 @@ pipeline {
         stage('Build') {
             steps {
 
-                sh 'docker exec mysql_cont python manage.py migrate'
                 sh 'docker compose up --build -d'
             }
         }
 
         stage('Test') {
             steps {
+                sh 'docker exec mysql_cont python manage.py migrate'
                 sh 'docker exec selenium_cont python tests.py'
             }
         }
