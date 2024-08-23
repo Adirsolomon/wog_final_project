@@ -3,6 +3,10 @@ pipeline {
 
     environment {
         DOCKER_CREDENTIALS = credentials("dockerhub")
+        DB_HOST = "mysql"
+        DB_USER = "wog_user"
+        DB_PASSWORD = "userpassword"
+        DB_NAME = "games"
     }
 
     stages {
@@ -14,6 +18,8 @@ pipeline {
 
         stage('Build') {
             steps {
+
+                sh 'docker exec mysql_cont python manage.py migrate'
                 sh 'docker compose up --build -d'
             }
         }
