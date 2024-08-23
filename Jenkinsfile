@@ -25,7 +25,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'python manage.py migrate'
+                
                 sh 'docker exec selenium_cont python tests.py'
             }
         }
