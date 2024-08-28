@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memory_game_deployment
+  namespace: wog-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: memory_game
+  template:
+    metadata:
+      labels:
+        app: memory_game
+    spec:
+      containers:
+      - name: memory_game
+        image: adiros/wog_final-memory_game:latest
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - mountPath: /app
+          name: memory_game-volume
+        command: ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+      volumes:
+      - name: memory_game-volume
+        hostPath:
+          path: C:\Users\adirs\Desktop\Django_wog\memory_game
+          type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: memory_game-service
+  namespace: wog-namespace
+spec:
+  selector:
+    app: memory_game
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
+  type: ClusterIP

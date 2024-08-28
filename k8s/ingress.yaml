@@ -1,0 +1,69 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wog-ingress
+  namespace: wog-namespace
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: intro.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: intro-service
+            port:
+              number: 8000
+  - host: game_picker.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: game_picker-service
+            port:
+              number: 8000
+  - host: savegame.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: savegame-service
+            port:
+              number: 8000
+  - host: memory_game.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: memory_game-service
+            port:
+              number: 8000
+  - host: guess_game.local
+    http:
+      paths:
+      - pathType: Prefix
+        backend:
+          service:
+            name: guess_game-service
+            port:
+              number: 8000
+  - host: currency_roulette.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: currency_roulette-service
+            port:
+              number: 8000
+         

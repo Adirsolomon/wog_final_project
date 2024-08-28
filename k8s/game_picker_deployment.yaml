@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: game_picker_deployment
+  namespace: wog-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: game_picker
+  template:
+    metadata:
+      labels:
+        app: game_picker
+    spec:
+      containers:
+      - name: game_picker
+        image: adiros/wog_final-game_picker:latest
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - mountPath: /app
+          name: game_picker-volume
+        command: ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+      volumes:
+      - name: game_picker-volume
+        hostPath:
+          path: C:\Users\adirs\Desktop\Django_wog\game_picker
+          type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: game_picker-service
+  namespace: wog-namespace
+spec:
+  selector:
+    app: game_picker
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
+  type: ClusterIP

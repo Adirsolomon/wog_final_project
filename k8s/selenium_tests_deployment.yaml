@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: selenium_tests_deployment
+  namespace: wog-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: selenium_tests
+  template:
+    metadata:
+      labels:
+        app: selenium_tests
+    spec:
+      containers:
+      - name: selenium_tests
+        image: adiros/wog_final-selenium_tests:latest
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - mountPath: /app
+          name: selenium_tests-volume
+        command: ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+      volumes:
+      - name: selenium_tests-volume
+        hostPath:
+          path: C:\Users\adirs\Desktop\Django_wog\selenium_tests
+          type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: selenium_tests-service
+  namespace: wog-namespace
+spec:
+  selector:
+    app: selenium_tests
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
+  type: ClusterIP
