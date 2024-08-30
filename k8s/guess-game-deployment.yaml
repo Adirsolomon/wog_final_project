@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: game_picker_deployment
+  name: guess-game-deployment
   namespace: wog-namespace
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: game_picker
+      app: guess-game
   template:
     metadata:
       labels:
-        app: game_picker
+        app: guess-game
     spec:
       containers:
-      - name: game_picker
-        image: adiros/wog_final-game_picker:latest
+      - name: guess-game
+        image: adiros/wog_final-guess_game:latest
         ports:
         - containerPort: 8000
         volumeMounts:
         - mountPath: /app
-          name: game_picker-volume
+          name: guess-game-volume
         command: ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
         resources:
           limits:
@@ -30,19 +30,19 @@ spec:
             memory: "256Mi"
             cpu: "250m"
       volumes:
-      - name: game_picker-volume
+      - name: guess-game-volume
         hostPath:
-          path: C:\Users\adirs\Desktop\Django_wog\game_picker
+          path: /home/adiros/Desktop/Django_wog/wog_final_project/wog_final_project/guess_game
           type: Directory
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: game_picker-service
+  name: guess-game-service
   namespace: wog-namespace
 spec:
   selector:
-    app: game_picker
+    app: guess-game
   ports:
   - protocol: TCP
     port: 8000

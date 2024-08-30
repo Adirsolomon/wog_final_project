@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: savegame-deployment
+  name: currency-roulette-deployment
   namespace: wog-namespace
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: savegame
+      app: currency-roulette
   template:
     metadata:
       labels:
-        app: savegame
+        app: currency-roulette
     spec:
       containers:
-      - name: savegame
-        image: adiros/wog_final-savegame:latest
+      - name: currency-roulette
+        image: adiros/wog_final-currency_roulette:latest
         ports:
         - containerPort: 8000
         volumeMounts:
         - mountPath: /app
-          name: savegame-volume
-        command: ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+          name: currency-roulette-volume
+        command: ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
         resources:
           limits:
             memory: "512Mi"
@@ -30,19 +30,19 @@ spec:
             memory: "256Mi"
             cpu: "250m"
       volumes:
-      - name: savegame-volume
+      - name: currency-roulette-volume
         hostPath:
-          path: C:\Users\adirs\Desktop\Django_wog\savegame
+          path: /home/adiros/Desktop/Django_wog/wog_final_project/wog_final_project/currency_roulette
           type: Directory
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: savegame-service
+  name: currency-roulette-service
   namespace: wog-namespace
 spec:
   selector:
-    app: savegame
+    app: currency-roulette
   ports:
   - protocol: TCP
     port: 8000

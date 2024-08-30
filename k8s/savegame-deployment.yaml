@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql_deployment
+  name: savegame-deployment
   namespace: wog-namespace
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysql
+      app: savegame
   template:
     metadata:
       labels:
-        app: mysql
+        app: savegame
     spec:
       containers:
-      - name: mysql
-        image: adiros/wog_final-mysql:latest
+      - name: savegame
+        image: adiros/wog_final-savegame:latest
         ports:
         - containerPort: 8000
         volumeMounts:
         - mountPath: /app
-          name: mysql-volume
-        command: ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
+          name: savegame-volume
+        command: ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
         resources:
           limits:
             memory: "512Mi"
@@ -30,19 +30,19 @@ spec:
             memory: "256Mi"
             cpu: "250m"
       volumes:
-      - name: mysql-volume
+      - name: savegame-volume
         hostPath:
-          path: C:\Users\adirs\Desktop\Django_wog\mysql
+          path: /home/adiros/Desktop/Django_wog/wog_final_project/wog_final_project/savegame
           type: Directory
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-service
+  name: savegame-service
   namespace: wog-namespace
 spec:
   selector:
-    app: mysql
+    app: savegame
   ports:
   - protocol: TCP
     port: 8000

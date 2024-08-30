@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: currency_roulette_deployment
+  name: intro-deployment
   namespace: wog-namespace
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: currency_roulette
+      app: intro
   template:
     metadata:
       labels:
-        app: currency_roulette
+        app: intro
     spec:
       containers:
-      - name: currency_roulette
-        image: adiros/wog_final-currency_roulette:latest
+      - name: intro
+        image: adiros/wog_final-intro:latest
         ports:
         - containerPort: 8000
         volumeMounts:
         - mountPath: /app
-          name: currency_roulette-volume
+          name: intro-volume
         command: ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
         resources:
           limits:
@@ -30,19 +30,19 @@ spec:
             memory: "256Mi"
             cpu: "250m"
       volumes:
-      - name: currency_roulette-volume
+      - name: intro-volume
         hostPath:
-          path: C:\Users\adirs\Desktop\Django_wog\currency_roulette
+          path: /home/adiros/Desktop/Django_wog/wog_final_project/wog_final_project/intro
           type: Directory
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: currency_roulette-service
+  name: intro-service
   namespace: wog-namespace
 spec:
   selector:
-    app: currency_roulette
+    app: intro
   ports:
   - protocol: TCP
     port: 8000

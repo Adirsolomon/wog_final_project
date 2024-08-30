@@ -17,14 +17,14 @@ spec:
             name: intro-service
             port:
               number: 8000
-  - host: game_picker.local
+  - host: game-picker.local
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: game_picker-service
+            name: game-picker-service
             port:
               number: 8000
   - host: savegame.local
@@ -37,33 +37,33 @@ spec:
             name: savegame-service
             port:
               number: 8000
-  - host: memory_game.local
+  - host: memory-game.local
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: memory_game-service
+            name: memory-game-service
             port:
               number: 8000
-  - host: guess_game.local
+  - host: guess-game.local
     http:
       paths:
       - pathType: Prefix
         backend:
           service:
-            name: guess_game-service
+            name: guess-game-service
             port:
               number: 8000
-  - host: currency_roulette.local
+  - host: currency-roulette.local
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: currency_roulette-service
+            name: currency-roulette-service
             port:
               number: 8000
          

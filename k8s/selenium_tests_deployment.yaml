@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: selenium_tests_deployment
+  name: selenium-tests-deployment
   namespace: wog-namespace
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: selenium_tests
+      app: selenium-tests
   template:
     metadata:
       labels:
-        app: selenium_tests
+        app: selenium-tests
     spec:
       containers:
-      - name: selenium_tests
+      - name: selenium-tests
         image: adiros/wog_final-selenium_tests:latest
         ports:
         - containerPort: 8000
         volumeMounts:
         - mountPath: /app
-          name: selenium_tests-volume
-        command: ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
+          name: selenium-tests-volume
+        command: ["sh", "-c", "python tests.py"]
         resources:
           limits:
             memory: "512Mi"
@@ -30,19 +30,19 @@ spec:
             memory: "256Mi"
             cpu: "250m"
       volumes:
-      - name: selenium_tests-volume
+      - name: selenium-tests-volume
         hostPath:
-          path: C:\Users\adirs\Desktop\Django_wog\selenium_tests
+          path: /home/adiros/Desktop/Django_wog/wog_final_project/wog_final_project/selenium_tests
           type: Directory
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: selenium_tests-service
+  name: selenium-tests-service
   namespace: wog-namespace
 spec:
   selector:
-    app: selenium_tests
+    app: selenium-tests
   ports:
   - protocol: TCP
     port: 8000

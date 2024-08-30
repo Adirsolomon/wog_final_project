@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: intro-deployment
+  name: memory-game-deployment
   namespace: wog-namespace
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: intro
+      app: memory-game
   template:
     metadata:
       labels:
-        app: intro
+        app: memory-game
     spec:
       containers:
-      - name: intro
-        image: adiros/wog_final-intro:latest
+      - name: memory-game
+        image: adiros/wog_final-memory_game:latest
         ports:
         - containerPort: 8000
         volumeMounts:
         - mountPath: /app
-          name: intro-volume
-        command: ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+          name: memory-game-volume
+        command: ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
         resources:
           limits:
             memory: "512Mi"
@@ -30,19 +30,19 @@ spec:
             memory: "256Mi"
             cpu: "250m"
       volumes:
-      - name: intro-volume
+      - name: memory-game-volume
         hostPath:
-          path: C:\Users\adirs\Desktop\Django_wog\intro
+          path: /home/adiros/Desktop/Django_wog/wog_final_project/wog_final_project/memory_game
           type: Directory
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: intro-service
+  name: memory-game-service
   namespace: wog-namespace
 spec:
   selector:
-    app: intro
+    app: memory-game
   ports:
   - protocol: TCP
     port: 8000
