@@ -8,9 +8,12 @@ services:
     volumes:
       - ./intro:/app
     depends_on:
-    - mysql 
+    - mysql
     command: >
-     sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+     sh -c "until nc -z -v -w60 mysql 3306; do echo 'Waiting for MySQL...'; sleep 10; done &&
+     python -c 'import MySQLdb; MySQLdb.connect(host=\"mysql\", user=\"wog_user\", passwd=\"userpassword\", db=\"games\")' &&
+     python manage.py runserver 0.0.0.0:8000"  
+
   game_picker:
     build: ./game_picker
     image: adiros/wog_final-game_picker:latest
@@ -18,9 +21,14 @@ services:
     ports:
       - "7072:8000"
     volumes:
-      - ./game_picker:/app  
+      - ./game_picker:/app
     depends_on:
-      - mysql    
+      - mysql
+    command: >
+     sh -c "until nc -z -v -w60 mysql 3306; do echo 'Waiting for MySQL...'; sleep 10; done &&
+     python -c 'import MySQLdb; MySQLdb.connect(host=\"mysql\", user=\"wog_user\", passwd=\"userpassword\", db=\"games\")' &&
+     python manage.py runserver 0.0.0.0:8000"  
+
   savegame:
     build: ./savegame
     image: adiros/wog_final-savegame:latest
@@ -32,7 +40,10 @@ services:
     depends_on:
       - mysql
     command: >
-     sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"  
+     sh -c "until nc -z -v -w60 mysql 3306; do echo 'Waiting for MySQL...'; sleep 10; done &&
+     python -c 'import MySQLdb; MySQLdb.connect(host=\"mysql\", user=\"wog_user\", passwd=\"userpassword\", db=\"games\")' &&
+     python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+
   memory_game:
     build: ./memory_game
     image: adiros/wog_final-memory_game:latest
@@ -42,7 +53,12 @@ services:
     volumes:
       - ./memory_game:/app
     depends_on:
-      - mysql  
+      - mysql
+    command: >
+     sh -c "until nc -z -v -w60 mysql 3306; do echo 'Waiting for MySQL...'; sleep 10; done &&
+     python -c 'import MySQLdb; MySQLdb.connect(host=\"mysql\", user=\"wog_user\", passwd=\"userpassword\", db=\"games\")' &&
+     python manage.py runserver 0.0.0.0:8000"   
+
   guess_game:
     build: ./guess_game
     image: adiros/wog_final-guess_game:latest
@@ -52,7 +68,12 @@ services:
     volumes:
       - ./guess_game:/app
     depends_on:
-      - mysql    
+      - mysql
+    command: >
+     sh -c "until nc -z -v -w60 mysql 3306; do echo 'Waiting for MySQL...'; sleep 10; done &&
+     python -c 'import MySQLdb; MySQLdb.connect(host=\"mysql\", user=\"wog_user\", passwd=\"userpassword\", db=\"games\")' &&
+     python manage.py runserver 0.0.0.0:8000"   
+
   currency_roulette:
     build: ./currency_roulette
     image: adiros/wog_final-currency_roulette:latest
@@ -63,6 +84,11 @@ services:
       - ./currency_roulette:/app
     depends_on:
       - mysql
+    command: >
+     sh -c "until nc -z -v -w60 mysql 3306; do echo 'Waiting for MySQL...'; sleep 10; done &&
+     python -c 'import MySQLdb; MySQLdb.connect(host=\"mysql\", user=\"wog_user\", passwd=\"userpassword\", db=\"games\")' &&
+     python manage.py runserver 0.0.0.0:8000"   
+
   selenium_tests:
     build: ./selenium_tests
     container_name: selenium_cont
@@ -80,7 +106,6 @@ services:
     environment:
     - WAIT_HOSTS=mysql:3306
     - WAIT_HOSTS=intro:8000
-             
 
   mysql:
     build: ./mysql
@@ -95,7 +120,12 @@ services:
       MYSQL_PASSWORD: userpassword
     volumes:
       - mysql_data:/var/lib/mysql
-  
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "wog_user", "-puserpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   mysql_data:
+
