@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql_deployment
+  name: game-picker-deployment
   namespace: wog-namespace
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysql
+      app: game-picker
   template:
     metadata:
       labels:
-        app: mysql
+        app: game-picker
     spec:
       containers:
-      - name: mysql
-        image: adiros/wog_final-mysql:latest
+      - name: game-picker
+        image: adiros/wog_final-game_picker:latest
         ports:
         - containerPort: 8000
         volumeMounts:
         - mountPath: /app
-          name: mysql-volume
+          name: game-picker-volume
         command: ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
         resources:
           limits:
@@ -30,19 +30,19 @@ spec:
             memory: "256Mi"
             cpu: "250m"
       volumes:
-      - name: mysql-volume
+      - name: game-picker-volume
         hostPath:
-          path: C:\Users\adirs\Desktop\Django_wog\mysql
+          path: C:\Users\adirs\Desktop\Django_wog\game_picker
           type: Directory
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-service
+  name: game-picker-service
   namespace: wog-namespace
 spec:
   selector:
-    app: mysql
+    app: game-picker
   ports:
   - protocol: TCP
     port: 8000

@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: selenium_tests_deployment
+  name: currency-roulette-deployment
   namespace: wog-namespace
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: selenium_tests
+      app: currency-roulette
   template:
     metadata:
       labels:
-        app: selenium_tests
+        app: currency-roulette
     spec:
       containers:
-      - name: selenium_tests
-        image: adiros/wog_final-selenium_tests:latest
+      - name: currency-roulette
+        image: adiros/wog_final-currency_roulette:latest
         ports:
         - containerPort: 8000
         volumeMounts:
         - mountPath: /app
-          name: selenium_tests-volume
+          name: currency-roulette-volume
         command: ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
         resources:
           limits:
@@ -30,19 +30,19 @@ spec:
             memory: "256Mi"
             cpu: "250m"
       volumes:
-      - name: selenium_tests-volume
+      - name: currency-roulette-volume
         hostPath:
-          path: C:\Users\adirs\Desktop\Django_wog\selenium_tests
+          path: C:\Users\adirs\Desktop\Django_wog\currency_roulette
           type: Directory
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: selenium_tests-service
+  name: currency-roulette-service
   namespace: wog-namespace
 spec:
   selector:
-    app: selenium_tests
+    app: currency-roulette
   ports:
   - protocol: TCP
     port: 8000
