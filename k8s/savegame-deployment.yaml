@@ -31,9 +31,8 @@ spec:
             cpu: "250m"
       volumes:
       - name: savegame-volume
-        hostPath:
-          path: /home/adiros/Desktop/wog_final_project/savegame
-          type: Directory
+        persistentVolumeClaim:
+          claimName: wog-pvc
 ---
 apiVersion: v1
 kind: Service

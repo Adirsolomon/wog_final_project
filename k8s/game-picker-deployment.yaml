@@ -31,9 +31,8 @@ spec:
             cpu: "250m"
       volumes:
       - name: game-picker-volume
-        hostPath:
-          path: /home/adiros/Desktop/wog_final_project/game_picker
-          type: Directory
+        persistentVolumeClaim:
+          claimName: wog-pvc
 ---
 apiVersion: v1
 kind: Service

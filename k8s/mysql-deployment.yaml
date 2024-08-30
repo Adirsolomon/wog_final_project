@@ -17,11 +17,19 @@ spec:
       - name: mysql
         image: adiros/wog_final-mysql:latest
         ports:
-        - containerPort: 8000
+        - containerPort: 3306  
         volumeMounts:
-        - mountPath: /app
-          name: mysql-volume
-        command: ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
+        - mountPath: /var/lib/mysql  
+          name: mysql-storage
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "rootpassword"
+        - name: MYSQL_DATABASE
+          value: "games"
+        - name: MYSQL_USER
+          value: "wog_user"
+        - name: MYSQL_PASSWORD
+          value: "userpassword"
         resources:
           limits:
             memory: "512Mi"
@@ -30,10 +38,9 @@ spec:
             memory: "256Mi"
             cpu: "250m"
       volumes:
-      - name: mysql-volume
-        hostPath:
-          path: /home/adiros/Desktop/wog_final_project/mysql
-          type: Directory
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc
 ---
 apiVersion: v1
 kind: Service
@@ -45,6 +52,6 @@ spec:
     app: mysql
   ports:
   - protocol: TCP
-    port: 8000
-    targetPort: 8000
+    port: 3306  
+    targetPort: 3306
   type: ClusterIP

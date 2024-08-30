@@ -31,9 +31,8 @@ spec:
             cpu: "250m"
       volumes:
       - name: memory-game-volume
-        hostPath:
-          path: /home/adiros/Desktop/wog_final_project/memory_game
-          type: Directory
+        persistentVolumeClaim:
+          claimName: wog-pvc
 ---
 apiVersion: v1
 kind: Service

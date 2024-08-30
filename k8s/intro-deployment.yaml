@@ -31,9 +31,8 @@ spec:
             cpu: "250m"
       volumes:
       - name: intro-volume
-        hostPath:
-          path: /home/adiros/Desktop/wog_final_project/intro
-          type: Directory
+        persistentVolumeClaim:
+          claimName: wog-pvc
 ---
 apiVersion: v1
 kind: Service
@@ -48,3 +47,4 @@ spec:
     port: 8000
     targetPort: 8000
   type: ClusterIP
+
