@@ -1,3 +1,5 @@
+
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,9 +20,6 @@ spec:
         image: adiros/wog_final-intro:latest
         ports:
         - containerPort: 8000
-        volumeMounts:
-        - mountPath: /app
-          name: intro-volume
         command: ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
         resources:
           limits:
@@ -29,10 +28,6 @@ spec:
           requests:
             memory: "256Mi"
             cpu: "250m"
-      volumes:
-      - name: intro-volume
-        persistentVolumeClaim:
-          claimName: wog-pvc
 ---
 apiVersion: v1
 kind: Service
@@ -47,4 +42,3 @@ spec:
     port: 8000
     targetPort: 8000
   type: ClusterIP
-

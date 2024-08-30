@@ -18,9 +18,6 @@ spec:
         image: adiros/wog_final-game_picker:latest
         ports:
         - containerPort: 8000
-        volumeMounts:
-        - mountPath: /app
-          name: game-picker-volume
         command: ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
         resources:
           limits:
@@ -29,10 +26,6 @@ spec:
           requests:
             memory: "256Mi"
             cpu: "250m"
-      volumes:
-      - name: game-picker-volume
-        persistentVolumeClaim:
-          claimName: wog-pvc
 ---
 apiVersion: v1
 kind: Service
