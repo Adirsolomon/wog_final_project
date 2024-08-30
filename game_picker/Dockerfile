@@ -7,7 +7,7 @@ RUN apt-get update \
         default-libmysqlclient-dev \
         build-essential \
         pkg-config \
-        bash \
+        netcat-openbsd \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
