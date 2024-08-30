@@ -32,7 +32,7 @@ spec:
       volumes:
       - name: game-picker-volume
         hostPath:
-          path: /home/adiros/Desktop/Django_wog/wog_final_project/wog_final_project/game_picker
+          path: /home/adiros/Desktop/wog_final_project/game_picker
           type: Directory
 ---
 apiVersion: v1

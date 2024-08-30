@@ -9,7 +9,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /home/adiros/Desktop/Django_wog/wog_final_project/wog_final_project/mysql
+    path: /home/adiros/Desktop/wog_final_project/mysql
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

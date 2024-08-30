@@ -32,7 +32,7 @@ spec:
       volumes:
       - name: memory-game-volume
         hostPath:
-          path: /home/adiros/Desktop/Django_wog/wog_final_project/wog_final_project/memory_game
+          path: /home/adiros/Desktop/wog_final_project/memory_game
           type: Directory
 ---
 apiVersion: v1
