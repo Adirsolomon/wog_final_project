@@ -21,7 +21,7 @@ spec:
         volumeMounts:
         - mountPath: /app
           name: selenium-tests-volume
-        command: ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
+        command: ["sh", "-c", "python tests.py"]
         resources:
           limits:
             memory: "512Mi"
@@ -32,7 +32,7 @@ spec:
       volumes:
       - name: selenium-tests-volume
         hostPath:
-          path: C:\Users\adirs\Desktop\Django_wog\selenium_tests
+          path: /home/adiros/Desktop/Django_wog/wog_final_project/wog_final_project/selenium_tests
           type: Directory
 ---
 apiVersion: v1
