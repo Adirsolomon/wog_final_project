@@ -1,0 +1,16 @@
+#!/bin/bash
+
+kubectl apply -f namespace.yaml
+kubectl apply -f mysql-pv.yaml -n wog-namespace
+kubectl apply -f mysql-deployment.yaml -n wog-namespace
+kubectl apply -f intro-deployment.yaml -n wog-namespace
+kubectl apply -f game-picker-deployment.yaml -n wog-namespace
+kubectl apply -f memory-game-deployment.yaml -n wog-namespace
+kubectl apply -f guess-game-deployment.yaml -n wog-namespace
+kubectl apply -f currency-roulette-deployment.yaml -n wog-namespace
+kubectl apply -f savegame-deployment.yaml -n wog-namespace
+kubectl apply -f ingress.yaml -n wog-namespace
+
+
+
+
