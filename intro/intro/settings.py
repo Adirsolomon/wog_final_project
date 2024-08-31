@@ -82,17 +82,16 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or another consistent 
 SESSION_COOKIE_NAME = 'sessionid'
 SECRET_KEY = 'django-insecure-z88x#$t-4f3l+*=i9(61nlh1-1bu7)y7em2gzldatohy1s#ve1'
 
+
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:7072',  
-    'http://localhost:7073',  
-    'http://localhost:7071',
-    'http://localhost:7070',  
-    'http://localhost:7074',  
-    'http://localhost:7075',
-    'http://localhost:7076',  
-    'http://localhost:7077',  
-    'http://localhost:7078', 
+    'http://intro.local',
+    'http://game-picker.local',
+    'http://savegame.local',
+    'http://memory-game.local',
+    'http://guess-game.local',
+    'http://currency-roulette.local',
 ]
+
 CSRF_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SECURE = False
 

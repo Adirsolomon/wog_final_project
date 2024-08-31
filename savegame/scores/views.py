@@ -36,7 +36,7 @@ def save_and_restart(request):
     save_score(request)
     # Clear the session and redirect to the intro page to start over
     request.session.flush()
-    return redirect('http://localhost:7070/')  # Redirect to the intro app
+    return redirect('http://intro.local')  # Redirect to the intro app
 
 
 def view_scores(request):

@@ -23,7 +23,7 @@ def play(request):
     if request.method == 'POST':
         level = request.session.get('level')
         if not level:
-            return redirect('http://localhost:7072/')
+            return redirect('http://game-picker.local')
 
         money_interval, random_number = get_money_interval(int(level))
         # Store list instead of range in session
@@ -41,7 +41,7 @@ def check_guess(request):
         money_interval = request.session.get('money_interval')
 
         if level is None or money_interval is None:
-            return redirect('http://localhost:7072/') 
+            return redirect('http://game-picker.local') 
 
         user_guess = request.POST.get('guess')
         if user_guess and user_guess.isnumeric():
@@ -58,8 +58,9 @@ def check_guess(request):
     return redirect('play')
 
 def quit_game(request):
-    # Redirect to save_game with a parameter indicating a return to intro
-    return redirect('http://localhost:7071/?next=intro')
+    # Redirect to savegame.local with a parameter indicating a return to intro.local
+    return redirect('http://savegame.local/?next=http://intro.local/')
+
 
 
 

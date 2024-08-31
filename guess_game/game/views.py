@@ -18,7 +18,7 @@ def play(request):
         level = request.session.get('level')
         if not level:
             # If level isn't set in session, redirect back to the game picker
-            return redirect('http://localhost:7072/')
+            return redirect('http://game-picker.local')
         
         # Generate a random number based on the difficulty level
         random_number = generate_number(int(level))
@@ -38,7 +38,7 @@ def check_guess(request):
 
         if level is None or random_number is None:
             # Handle the error by either redirecting or showing an error
-            return redirect('http://localhost:7072/')  # Redirect back to the picker
+            return redirect('http://game-picker.local')  # Redirect back to the picker
 
         # Get the user's guess from the POST data
         user_guess = get_user_guess(request)
@@ -56,7 +56,8 @@ def check_guess(request):
     return redirect('play')
 
 def quit_game(request):
-    # Redirect to save_game with a parameter indicating a return to intro
-    return redirect('http://localhost:7071/?next=intro')
+    # Redirect to savegame.local with a parameter indicating a return to intro.local
+    return redirect('http://savegame.local/?next=http://intro.local/')
+
 
 

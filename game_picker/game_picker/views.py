@@ -13,11 +13,11 @@ def game_picker(request):
             
             # Redirect based on the selected game
             if game_selected == 'memory_game':  
-                return redirect('http://localhost:7073/')
+                return redirect('http://memory-game.local')
             elif game_selected == 'guess_game':  
-                return redirect('http://localhost:7074/')
+                return redirect('http://guess-game.local')
             elif game_selected == 'currency_roulette':  
-                return redirect('http://localhost:7075/')
+                return redirect('http://currency-roulette.local')
         else:
             return render(request, 'game_picker.html', {'error': 'Invalid selection. Please try again.'})
 

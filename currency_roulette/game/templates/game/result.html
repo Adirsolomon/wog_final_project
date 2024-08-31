@@ -13,7 +13,7 @@
     <form method="post">
         {% csrf_token %}
         <button type="submit" formaction="{% url 'play' %}">Play Again</button>
-        <a href="http://localhost:7072/"><button type="button">Go Back to main menu</button></a>
+        <a href='http://game-picker.local'><button type="button">Go Back to main menu</button></a>
         <button type="submit" formaction="{% url 'quit_game' %}">Quit & Save</button>
     </form>
 </body>

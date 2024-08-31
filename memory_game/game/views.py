@@ -22,7 +22,7 @@ def play(request):
         level = request.session.get('level')
         if not level:
             # If level isn't set in session, redirect back to the game picker
-            return redirect('http://localhost:7072/')
+            return redirect('http://game-picker.local')
         
         random_list = generate_sequence(int(level))  # Ensure level is an integer
         request.session['random_list'] = random_list
@@ -40,7 +40,7 @@ def check_memory(request):
         # Add a check for None level
         if level is None:
             # Handle the error by either redirecting or showing an error
-            return redirect('http://localhost:7072/')  # Redirect back to the picker
+            return redirect('http://game-picker.local')  # Redirect back to the picker
             
         random_list = request.session.get('random_list')
         user_list = get_user_list(request, level)
@@ -58,8 +58,9 @@ def check_memory(request):
     return redirect('play')
 
 def quit_game(request):
-    # Redirect to save_game with a parameter indicating a return to intro
-    return redirect('http://localhost:7071/?next=intro')
+    # Redirect to savegame.local with a parameter indicating a return to intro.local
+    return redirect('http://savegame.local/?next=http://intro.local/')
+
 
 
 
