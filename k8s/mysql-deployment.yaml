@@ -30,6 +30,16 @@ spec:
           value: "wog_user"
         - name: MYSQL_PASSWORD
           value: "userpassword"
+        readinessProbe:
+          exec:
+            command: ["mysqladmin", "ping", "-h", "localhost"]
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          exec:
+            command: ["mysqladmin", "ping", "-h", "localhost"]
+          initialDelaySeconds: 60
+          periodSeconds: 20
         resources:
           limits:
             memory: "512Mi"

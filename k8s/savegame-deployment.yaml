@@ -13,12 +13,29 @@ spec:
       labels:
         app: savegame
     spec:
+      initContainers:
+      - name: wait-for-mysql
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nc -z -v -w60 mysql 3306; do echo "Waiting for MySQL..."; sleep 10; done;']
+      
       containers:
       - name: savegame
         image: adiros/wog_final-savegame:latest
         ports:
         - containerPort: 8000
         command: ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+        readinessProbe:
+          httpGet:
+            path: "/"
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: "/"
+            port: 8000
+          initialDelaySeconds: 60
+          periodSeconds: 20
         resources:
           limits:
             memory: "512Mi"
