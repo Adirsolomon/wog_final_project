@@ -7,11 +7,11 @@ def game_picker(request):
 
         # Check if the game and level are valid selections
         if game_selected in ['memory_game', 'guess_game', 'currency_roulette'] and level in ['1', '2', '3', '4', '5']:
-            request.session['level'] = level
-            request.session.save()  # Save the level in the session
+            request.session['level'] = level  # Store the level in the session
+            request.session.save()  # Save the session data
             print(f"Set level to {level} in session")  # Debug print
             
-            # Redirect based on the selected game
+            # Redirect to the selected game
             if game_selected == 'memory_game':  
                 return redirect('http://memory-game.local')
             elif game_selected == 'guess_game':  
@@ -22,6 +22,7 @@ def game_picker(request):
             return render(request, 'game_picker.html', {'error': 'Invalid selection. Please try again.'})
 
     return render(request, 'game_picker.html')
+
 
 
 

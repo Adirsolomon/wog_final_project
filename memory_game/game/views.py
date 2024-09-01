@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect
 import random
 
-def generate_sequence(difficulty):
-    sequence = [random.randint(1, 101) for _ in range(difficulty)]
+def generate_sequence(level):
+    """Generate a sequence of random numbers based on the difficulty level."""
+    sequence = [random.randint(1, 101) for _ in range(level)]
     return sequence
 
-def get_user_list(request, difficulty):
+def get_user_list(request, level):
+    """Retrieve the user's input list based on the difficulty level."""
     user_input = []
-    for i in range(int(difficulty)):
+    for i in range(level):
         num = request.POST.get(f'num_{i+1}')
         if num and num.isnumeric():
             user_input.append(int(num))
@@ -17,16 +19,15 @@ def get_user_list(request, difficulty):
 
 def play(request):
     if request.method == 'POST':
-        # Get the level from the session, which was set by the game picker
+        # Get the level from the session
         level = request.session.get('level')
         if not level:
             # If level isn't set in session, redirect back to the game picker
             return redirect('http://game-picker.local')
         
         # Generate a sequence and store it in the session
-        random_list = generate_sequence(int(level))  # Ensure level is an integer
+        random_list = generate_sequence(int(level))
         request.session['random_list'] = random_list
-        request.session['difficulty'] = int(level)  # Ensure level is stored as an integer
 
         # Proceed to the sequence view
         return render(request, 'game/sequence.html', {'sequence': random_list, 'level': int(level)})
@@ -36,20 +37,14 @@ def play(request):
 
 def check_memory(request):
     if request.method == 'POST':
-        level = request.session.get('difficulty')
-        
-        # Add a check for None level
-        if level is None:
-            # Handle the error by either redirecting or showing an error
-            return redirect('http://game-picker.local')  # Redirect back to the picker
-            
+        level = request.session.get('level')  # Get level directly from session
         random_list = request.session.get('random_list')
-        user_list = get_user_list(request, level)
+        user_list = get_user_list(request, int(level))
         
         if user_list and user_list == random_list:
             # Update score
             score = request.session.get('score', 0)
-            score += (level * 3) + 5
+            score += (int(level) * 3) + 5
             request.session['score'] = score
 
             return render(request, 'game/result.html', {'result': 'You win!', 'success': True, 'score': score})
@@ -61,6 +56,7 @@ def check_memory(request):
 def quit_game(request):
     # Redirect to savegame.local with a parameter indicating a return to intro.local
     return redirect('http://savegame.local/?next=http://intro.local/')
+
 
 
 
