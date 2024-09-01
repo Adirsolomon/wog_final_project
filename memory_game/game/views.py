@@ -23,13 +23,15 @@ def play(request):
             # If level isn't set in session, redirect back to the game picker
             return redirect('http://game-picker.local')
         
+        # Generate a sequence and store it in the session
         random_list = generate_sequence(int(level))  # Ensure level is an integer
         request.session['random_list'] = random_list
         request.session['difficulty'] = int(level)  # Ensure level is stored as an integer
 
+        # Proceed to the sequence view
         return render(request, 'game/sequence.html', {'sequence': random_list, 'level': int(level)})
     
-    # If GET request, redirect to play screen
+    # If GET request, show the play screen
     return render(request, 'game/play.html')
 
 def check_memory(request):
@@ -59,7 +61,6 @@ def check_memory(request):
 def quit_game(request):
     # Redirect to savegame.local with a parameter indicating a return to intro.local
     return redirect('http://savegame.local/?next=http://intro.local/')
-
 
 
 
