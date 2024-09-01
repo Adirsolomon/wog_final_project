@@ -27,8 +27,6 @@ SECRET_KEY = 'django-insecure-z88x#$t-4f3l+*=i9(61nlh1-1bu7)y7em2gzldatohy1s#ve1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -77,6 +75,8 @@ WSGI_APPLICATION = 'savegame.wsgi.application'
 
 SSESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or another consistent backend
 SESSION_COOKIE_NAME = 'sessionid'
+
+ALLOWED_HOSTS = ['intro.local', 'game-picker.local', 'savegame.local', 'memory-game.local', 'guess-game.local', 'currency-roulette.local']
 
 CSRF_TRUSTED_ORIGINS = [
     'http://intro.local',
