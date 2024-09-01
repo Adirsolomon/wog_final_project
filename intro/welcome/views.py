@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 
 def welcome(request):
+    print(request.get_host()) 
     if request.method == 'POST':
         # Clear the session data to reset for a new user
         request.session.flush()
@@ -23,7 +24,7 @@ def welcome(request):
             # Render the greeting and then redirect to game_picker
             # Generate the absolute URL for the redirect
             game_picker_url = request.build_absolute_uri('http://game-picker.local')
-            return render(request, 'welcome/welcome.html', {'greeting': greeting_message, 'redirect': game_picker_url})
+            return render(request, 'welcome/welcome.html', {'greeting': greeting_message, 'redirect':'http://game-picker.local/'})
 
     return render(request, 'welcome/welcome.html')
 
