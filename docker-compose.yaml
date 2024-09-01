@@ -1,118 +1,125 @@
+version: '3.8'
+
 services:
   intro:
     build: ./intro
     image: adiros/wog_final-intro:latest
     container_name: intro_cont
     ports:
-      - "7070:8000"
+      - "8000:8000"  
     volumes:
       - ./intro:/app
     depends_on:
     - mysql
     command: >
      sh -c "until nc -z -v -w60 mysql 3306; do echo 'Waiting for MySQL...'; sleep 10; done &&
-     python -c 'import MySQLdb; MySQLdb.connect(host=\"mysql\", user=\"wog_user\", passwd=\"userpassword\", db=\"games\")' &&
      python manage.py runserver 0.0.0.0:8000"  
+    environment:
+      - DJANGO_ALLOWED_HOSTS=intro.local
 
   game_picker:
     build: ./game_picker
     image: adiros/wog_final-game_picker:latest
     container_name: picker_cont
     ports:
-      - "7072:8000"
+      - "8000:8000"  
     volumes:
       - ./game_picker:/app
     depends_on:
       - mysql
     command: >
      sh -c "until nc -z -v -w60 mysql 3306; do echo 'Waiting for MySQL...'; sleep 10; done &&
-     python -c 'import MySQLdb; MySQLdb.connect(host=\"mysql\", user=\"wog_user\", passwd=\"userpassword\", db=\"games\")' &&
-     python manage.py runserver 0.0.0.0:8000"  
+     python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DJANGO_ALLOWED_HOSTS=game-picker.local
 
   savegame:
     build: ./savegame
     image: adiros/wog_final-savegame:latest
     container_name: savegame_cont
     ports:
-      - "7071:8000"
+      - "8000:8000"  
     volumes:
       - ./savegame:/app
     depends_on:
       - mysql
     command: >
      sh -c "until nc -z -v -w60 mysql 3306; do echo 'Waiting for MySQL...'; sleep 10; done &&
-     python -c 'import MySQLdb; MySQLdb.connect(host=\"mysql\", user=\"wog_user\", passwd=\"userpassword\", db=\"games\")' &&
      python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DJANGO_ALLOWED_HOSTS=savegame.local
 
   memory_game:
     build: ./memory_game
     image: adiros/wog_final-memory_game:latest
     container_name: memorygame_cont
     ports:
-      - "7073:8000"
+      - "8000:8000"  
     volumes:
       - ./memory_game:/app
     depends_on:
       - mysql
     command: >
      sh -c "until nc -z -v -w60 mysql 3306; do echo 'Waiting for MySQL...'; sleep 10; done &&
-     python -c 'import MySQLdb; MySQLdb.connect(host=\"mysql\", user=\"wog_user\", passwd=\"userpassword\", db=\"games\")' &&
-     python manage.py runserver 0.0.0.0:8000"   
+     python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DJANGO_ALLOWED_HOSTS=memory-game.local
 
   guess_game:
     build: ./guess_game
     image: adiros/wog_final-guess_game:latest
     container_name: guessgame_cont
     ports:
-      - "7074:8000"
+      - "8000:8000"  
     volumes:
       - ./guess_game:/app
     depends_on:
       - mysql
     command: >
      sh -c "until nc -z -v -w60 mysql 3306; do echo 'Waiting for MySQL...'; sleep 10; done &&
-     python -c 'import MySQLdb; MySQLdb.connect(host=\"mysql\", user=\"wog_user\", passwd=\"userpassword\", db=\"games\")' &&
-     python manage.py runserver 0.0.0.0:8000"   
+     python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DJANGO_ALLOWED_HOSTS=guess-game.local
 
   currency_roulette:
     build: ./currency_roulette
     image: adiros/wog_final-currency_roulette:latest
     container_name: currency_cont
     ports:
-      - "7075:8000"
+      - "8000:8000"  
     volumes:
       - ./currency_roulette:/app
     depends_on:
       - mysql
     command: >
      sh -c "until nc -z -v -w60 mysql 3306; do echo 'Waiting for MySQL...'; sleep 10; done &&
-     python -c 'import MySQLdb; MySQLdb.connect(host=\"mysql\", user=\"wog_user\", passwd=\"userpassword\", db=\"games\")' &&
-     python manage.py runserver 0.0.0.0:8000"   
+     python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DJANGO_ALLOWED_HOSTS=currency-roulette.local
 
   selenium_tests:
     build: ./selenium_tests
     container_name: selenium_cont
     image: adiros/wog_final-selenium_tests:latest
     volumes:
-    - ./selenium_tests:/app
+      - ./selenium_tests:/app
     depends_on:
-    - intro
-    - game_picker
-    - savegame
-    - memory_game
-    - guess_game
-    - currency_roulette
-    - mysql
+      - intro
+      - game_picker
+      - savegame
+      - memory_game
+      - guess_game
+      - currency_roulette
+      - mysql
     environment:
-    - WAIT_HOSTS=mysql:3306
-    - WAIT_HOSTS=intro:8000
+      - WAIT_HOSTS=mysql:3306,intro:8000
 
   mysql:
     build: ./mysql
     image: adiros/wog_final-mysql:latest
     container_name: mysql_cont
     ports:
-      - "3306:3306"
+      - "3306:3306"  
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: games
