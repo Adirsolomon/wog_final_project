@@ -81,9 +81,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'intro.wsgi.application'
 
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or another consistent backend
-SESSION_COOKIE_NAME = 'sessionid'
-SESSION_COOKIE_DOMAIN = '.local'
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://redis:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
 
 SECRET_KEY = 'django-insecure-z88x#$t-4f3l+*=i9(61nlh1-1bu7)y7em2gzldatohy1s#ve1'
 

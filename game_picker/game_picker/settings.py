@@ -79,9 +79,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'game_picker.wsgi.application'
 
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or another consistent backend
-SESSION_COOKIE_NAME = 'sessionid'
-SESSION_COOKIE_DOMAIN = '.local'
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://redis:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
 
 ALLOWED_HOSTS = ['intro.local', 'game-picker.local', 'savegame.local', 'memory-game.local', 'guess-game.local', 'currency-roulette.local']
 
