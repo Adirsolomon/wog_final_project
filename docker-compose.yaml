@@ -1,4 +1,21 @@
 services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx_reverse_proxy
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - intro
+      - game_picker
+      - savegame
+      - memory_game
+      - guess_game
+      - currency_roulette
+    networks:
+      - wog-network
+
   intro:
     build: ./intro
     image: adiros/wog_final-intro:latest
@@ -6,10 +23,10 @@ services:
     volumes:
       - ./intro:/app
     depends_on:
-    - mysql
+      - mysql
     command: >
      sh -c "until nc -z -v -w60 mysql 3306; do echo 'Waiting for MySQL...'; sleep 10; done &&
-     python manage.py runserver 0.0.0.0:8000"  
+     python manage.py runserver 0.0.0.0:8000"
     environment:
       - DJANGO_ALLOWED_HOSTS=intro.local
     networks:
@@ -119,7 +136,7 @@ services:
     image: adiros/wog_final-mysql:latest
     container_name: mysql_cont
     ports:
-      - "3306:3306"  
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: games
@@ -141,4 +158,5 @@ volumes:
 networks:
   wog-network:
     driver: bridge
+
 
