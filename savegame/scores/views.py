@@ -38,7 +38,6 @@ def save_and_restart(request):
     request.session.flush()
     return redirect('http://intro.local')  # Redirect to the intro app
 
-
 def view_scores(request):
     # Retrieve all players and their scores from the database
     players = Player.objects.all().order_by('-score')  # Order by score descending

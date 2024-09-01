@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 import random
 
-
 def generate_sequence(difficulty):
     sequence = [random.randint(1, 101) for _ in range(difficulty)]
     return sequence

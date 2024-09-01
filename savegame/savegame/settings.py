@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'scores',
+    'corsheaders',
 ]
 
 
@@ -49,7 +50,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+
+CORS_ALLOW_ALL_ORIGINS = True 
 
 ROOT_URLCONF = 'savegame.urls'
 
@@ -75,6 +81,7 @@ WSGI_APPLICATION = 'savegame.wsgi.application'
 
 SSESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or another consistent backend
 SESSION_COOKIE_NAME = 'sessionid'
+SESSION_COOKIE_DOMAIN = '.local'
 
 ALLOWED_HOSTS = ['intro.local', 'game-picker.local', 'savegame.local', 'memory-game.local', 'guess-game.local', 'currency-roulette.local']
 

@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'welcome',
+    'corsheaders',
     
 ]
 
@@ -48,7 +49,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+
+CORS_ALLOW_ALL_ORIGINS = True 
 
 ROOT_URLCONF = 'intro.urls'
 
@@ -77,6 +83,8 @@ WSGI_APPLICATION = 'intro.wsgi.application'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or another consistent backend
 SESSION_COOKIE_NAME = 'sessionid'
+SESSION_COOKIE_DOMAIN = '.local'
+
 SECRET_KEY = 'django-insecure-z88x#$t-4f3l+*=i9(61nlh1-1bu7)y7em2gzldatohy1s#ve1'
 
 
