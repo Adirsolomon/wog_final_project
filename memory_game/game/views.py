@@ -35,6 +35,10 @@ def check_memory(request):
 
     return redirect('play')
 
+def quit_game(request):
+    # Redirect to savegame.local with a parameter indicating a return to intro.local
+    return redirect('http://savegame.local/?next=http://intro.local/')
+
 
 
 
