@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 
 def welcome(request):
     if request.method == 'POST':
@@ -22,7 +21,9 @@ def welcome(request):
             # Greet the user
             greeting_message = f"Hi {username} and welcome to the World of Games: The Epic Journey"
             # Render the greeting and then redirect to game_picker
-            return render(request, 'welcome/welcome.html', {'greeting': greeting_message, 'redirect': True})
+            # Generate the absolute URL for the redirect
+            game_picker_url = request.build_absolute_uri('http://game-picker.local')
+            return render(request, 'welcome/welcome.html', {'greeting': greeting_message, 'redirect': game_picker_url})
 
     return render(request, 'welcome/welcome.html')
 
