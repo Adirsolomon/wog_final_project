@@ -10,13 +10,12 @@ def get_currency_rate():
     data = resp.json()
     return data["data"]["ILS"]
 
-def get_money_interval(difficulty):
+def get_money_interval(level):
     random_number = random.randint(1, 100)
     current_rate = get_currency_rate()
     correct_answer = random_number * current_rate
-    allowed_range = 10 - difficulty
-    # Convert range to list to avoid JSON serialization issue
-    money_interval = list(range(int(correct_answer-allowed_range), int(correct_answer+allowed_range)))
+    allowed_range = 10 - level
+    money_interval = list(range(int(correct_answer - allowed_range), int(correct_answer + allowed_range)))
     return money_interval, random_number
 
 def play(request):
@@ -26,10 +25,8 @@ def play(request):
             return redirect('http://game-picker.local')
 
         money_interval, random_number = get_money_interval(int(level))
-        # Store list instead of range in session
         request.session['money_interval'] = money_interval
         request.session['random_number'] = random_number
-        request.session['difficulty'] = int(level)
 
         return render(request, 'game/start.html', {'level': int(level), 'random_number': random_number})
     
@@ -37,7 +34,7 @@ def play(request):
 
 def check_guess(request):
     if request.method == 'POST':
-        level = request.session.get('difficulty')
+        level = request.session.get('level')
         money_interval = request.session.get('money_interval')
 
         if level is None or money_interval is None:
@@ -48,7 +45,7 @@ def check_guess(request):
             user_guess = int(user_guess)
             if user_guess in money_interval:
                 score = request.session.get('score', 0)
-                score += (level * 3) + 5
+                score += (int(level) * 3) + 5
                 request.session['score'] = score
 
                 return render(request, 'game/result.html', {'result': 'You win!', 'success': True, 'score': score})
