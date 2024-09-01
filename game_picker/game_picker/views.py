@@ -5,21 +5,20 @@ def game_picker(request):
         game_selected = request.POST.get('game_selected')
         level = request.POST.get('level')
 
-        # Check if the game and level are valid selections
+        # Validate game and level selection
         if game_selected in ['memory_game', 'guess_game', 'currency_roulette'] and level in ['1', '2', '3', '4', '5']:
-            request.session['level'] = level  # Store the level in the session
-            request.session.save()  # Save the session data
-            print(f"Set level to {level} in session")  # Debug print
-            
-            # Redirect to the selected game
-            if game_selected == 'memory_game':  
-                return redirect('http://memory-game.local')
-            elif game_selected == 'guess_game':  
-                return redirect('http://guess-game.local')
-            elif game_selected == 'currency_roulette':  
-                return redirect('http://currency-roulette.local')
-        else:
-            return render(request, 'game_picker.html', {'error': 'Invalid selection. Please try again.'})
+            request.session['level'] = level  # Store level in session
+            print(f"Game: {game_selected}, Level: {level} set in session.")
+
+            # Redirect to the selected game's domain
+            game_redirects = {
+                'memory_game': 'http://memory-game.local',
+                'guess_game': 'http://guess-game.local',
+                'currency_roulette': 'http://currency-roulette.local',
+            }
+            return redirect(game_redirects.get(game_selected))
+
+        return render(request, 'game_picker.html', {'error': 'Invalid selection. Please try again.'})
 
     return render(request, 'game_picker.html')
 
