@@ -7,9 +7,9 @@ def game_picker(request):
 
         if game_selected in ['memory_game', 'guess_game', 'currency_roulette'] and level in ['1', '2', '3', '4', '5']:
             request.session['level'] = level
+            request.session['game_selected'] = game_selected
             print(f"Game: {game_selected}, Level: {level} set in session.")
 
-            # Redirect to the selected game's subdomain
             game_redirects = {
                 'memory_game': 'http://memory-game.local',
                 'guess_game': 'http://guess-game.local',
